@@ -1,0 +1,8 @@
+version: 0.0
+os: windows
+files:
+  - source: \
+    destination: C:\inetpub\wwwroot\NancyDemo
+hooks:  
+  BeforeInstall:
+    - location: \CodeDeployScripts\beforeInstall.ps1
