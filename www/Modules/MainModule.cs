@@ -16,7 +16,7 @@ namespace www
                 Timestamp = DateTime.Now
             }]);
 
-            Get("/{clientGUID:guid}/home", x => View["_views/ClientHome", new
+            Get("/{clientGUID:guid}/home", x => View["Data/_views/ClientHome", new
             {
                 clientGUID = (Guid)x.clientGUID
             }]);

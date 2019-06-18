@@ -35,7 +35,18 @@ namespace www
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseOwin(owin => owin.UseNancy(nancy => nancy.Bootstrapper = new Bootstrapper(config)));
+            app
+                .UseOwin(owin => owin
+                    .UseNancy(nancy =>
+                    {
+                        nancy.Bootstrapper = new Bootstrapper(config);
+                        nancy.PerformPassThrough = context =>
+                        {
+                            var path = context.Request.Path.ToLower();
+                            return path.StartsWith("/node_modules");
+                        };
+                    })
+                );
         }
     }
 }

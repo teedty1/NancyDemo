@@ -37,6 +37,22 @@ namespace www.Modules
                 var b = buildBundle(root, clientGUID, BundleType.JS);
                 return Response.AsText(b, "application/javascript");
             });
+
+
+            Get("/views/{name*}", x =>
+            {
+                string viewName = x.name;
+
+                var path = getViewPath(root, clientGUID, viewName, out string eTag);
+
+                if (path == "")
+                    return HttpStatusCode.NotFound;
+
+                return View[path]
+                    .WithHeader("View", path)
+                    .WithHeader("Cache-Control", "max-age=3600, public")
+                    .WithHeader("ETag", eTag);
+            });
         }
 
         private string buildBundle(IRootPathProvider root, Guid clientGUID, BundleType type)
@@ -55,7 +71,7 @@ namespace www.Modules
 
             var typeDir = "_css";
             if (type == BundleType.JS)
-                typeDir = "_script";
+                typeDir = "_js";
 
             var files = new List<string>();
 
@@ -63,7 +79,7 @@ namespace www.Modules
             {
                 path = path + p + "/";
 
-                var dir = new System.IO.DirectoryInfo(root.GetRootPath().Replace("\\", "/") + path + typeDir);
+                var dir = new DirectoryInfo(root.GetRootPath().Replace("\\", "/") + path + typeDir);
                 if (!dir.Exists)
                     continue;
 
@@ -106,6 +122,42 @@ namespace www.Modules
 
             return ret?
                 .Replace("@ClientGUID", clientGUID.ToString());
+        }
+
+        private string getViewPath(IRootPathProvider root, Guid clientGUID, string viewName, out string etag)
+        {
+            string fileSystemBasePath = root.GetRootPath();
+            bool found = false;
+            string path = "";
+            etag = "";
+
+            //Find the clientGUID file
+            //There can only be one root
+            var clientFSRoot = Directory.EnumerateFiles(fileSystemBasePath, clientGUID.ToString(), SearchOption.AllDirectories).First();
+
+            var basePath = clientFSRoot;
+
+            //start at the bottom (client level) and work your way up to the top of the tree looking for the view.
+            try
+            {
+                var maxLoop = 50;
+                var loopCount = 0;
+                while (!found && ++loopCount < maxLoop)
+                {
+                    path = Path.Combine(basePath, "_views", viewName);
+
+                    found = File.Exists(path);
+                    if (!found)
+                        basePath = Directory.GetParent(basePath).FullName;
+                }
+
+                etag = "\"" + DateTime.UtcNow.Ticks + "\"";
+            }
+            catch (Exception)
+            { return ""; }
+
+            //Remove the File System path and just return the relative path
+            return path.Replace(fileSystemBasePath, "").Replace("\\", "/").TrimStart('/');
         }
 
         private enum BundleType { JS, CSS }

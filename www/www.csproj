@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Data\Clients\One\_script\ClientOne.ts" />
-    <None Remove="Data\Clients\Two\_script\ClientTwo.ts" />
-    <None Remove="Data\_script\app.module.ts" />
-    <None Remove="Data\_script\main.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="BundlerMinifier.Core" Version="2.9.406" />
     <PackageReference Include="Dapper" Version="1.60.6" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -24,14 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Content\" />
     <Folder Include="Data\_images\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="Data\Clients\One\_script\ClientOne.ts" />
-    <TypeScriptCompile Include="Data\Clients\Two\_script\ClientTwo.ts" />
-    <TypeScriptCompile Include="Data\_script\app.module.ts" />
-    <TypeScriptCompile Include="Data\_script\main.ts" />
+    <Folder Include="Data\_script\" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

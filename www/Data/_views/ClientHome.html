@@ -8,9 +8,17 @@
     <base href="/" />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link type="text/css"
+          rel="stylesheet"
+          href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css"
+          rel="stylesheet"
+          href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
     <link rel="stylesheet" href="/@Model.clientGUID/bundle.css">
     <title>Hello, world!</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
 </head>
 <body>
     <div class="container">
@@ -23,7 +31,13 @@
             <div class="col-md-2"></div>
         </div>
         <div class="row">
-            <app-root></app-root>
+            <div class="col-md-12 text-center">
+                <div id="app">
+                    <h3>{{ message }}</h3>
+                    <b-alert show>Default Alert</b-alert>
+                </div>
+                <div id="client"><h2>{{ clientMessage }}</h2></div>
+            </div>
         </div>
     </div>
     <script type="text/javascript" src="/@Model.clientGUID/bundle.js"></script>
