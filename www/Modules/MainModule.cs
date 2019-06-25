@@ -10,34 +10,26 @@ namespace www
 {
     public class MainModule : Nancy.NancyModule
     {
-        public MainModule(IDatabase db, IRazorRenderService razor)
+        public MainModule(IDatabase db)
         {
             Get("/", x => View["_views/SSVE", new
             {
                 Timestamp = DateTime.Now
             }]);
 
-            Get("/{clientGUID:guid}/razor", async (x, ct) =>
+            Get("/{clientGUID:guid}/razor", async (x, ct) => View["Data/_views/Index", new ClientModel
             {
-                var html = await razor.RenderToStringAsync("Data/_views/Index", new ClientModel
-                {
-                    Title = "Joe",
-                    ClientGUID = (Guid)x.clientGUID
-                });
+                Title = "Joe",
+                ClientGUID = (Guid)x.clientGUID
+            }]);
 
-                return Response.AsText(html, "text/html");
-            });
 
-            Get("/{clientGUID:guid}/razor/2", async (x, ct) =>
+            Get("/{clientGUID:guid}/razor/2", async (x, ct) => View["Data/Clients/Two/_views/Index", new ClientModel
             {
-                var html = await razor.RenderToStringAsync("Data/Clients/Two/_views/Index", new ClientModel
-                {
-                    Title = "Client #2",
-                    ClientGUID = (Guid)x.clientGUID
-                });
+                Title = "Client #2",
+                ClientGUID = (Guid)x.clientGUID
+            }]);
 
-                return Response.AsText(html, "text/html");
-            });
 
             Get("/{clientGUID:guid}/home", x => View["Data/_views/ClientHome", new
             {
@@ -45,11 +37,11 @@ namespace www
             }]);
 
             Post("/", x =>
-            {
-                var data = this.Bind<PostData>();
+                    {
+                        var data = this.Bind<PostData>();
 
-                return View["_views/PostData", data];
-            });
+                        return View["_views/PostData", data];
+                    });
 
             Post("/name/{name}", x =>
             {
@@ -64,12 +56,12 @@ namespace www
 
 
             Get("/razor", async (x, ct) =>
-            {
+                    {
+                        return View["_views/RazorTest", new { }];
+                    //var result = await razor.RenderToStringAsync("_views/RazorTest", new { });
 
-                var result = await razor.RenderToStringAsync("_views/RazorTest", new { });
-
-                return Response.AsText(result, "text/html");
-            });
+                    //return Response.AsText(result, "text/html");
+                });
         }
     }
 

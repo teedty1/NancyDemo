@@ -1,95 +1,82 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Internal;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Mvc.Razor.Internal;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.AspNetCore.Razor.Language;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Diagnostics;
+//using System.Globalization;
+//using System.IO;
+//using System.Linq;
+//using System.Text;
+//using System.Text.Encodings.Web;
+//using System.Threading.Tasks;
+//using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Mvc;
+//using Microsoft.AspNetCore.Mvc.Abstractions;
+//using Microsoft.AspNetCore.Mvc.Internal;
+//using Microsoft.AspNetCore.Mvc.ModelBinding;
+//using Microsoft.AspNetCore.Mvc.Razor;
+//using Microsoft.AspNetCore.Mvc.Razor.Internal;
+//using Microsoft.AspNetCore.Mvc.Rendering;
+//using Microsoft.AspNetCore.Mvc.ViewEngines;
+//using Microsoft.AspNetCore.Mvc.ViewFeatures;
+//using Microsoft.AspNetCore.Razor.Language;
+//using Microsoft.AspNetCore.Routing;
+//using Microsoft.Extensions.Caching.Memory;
+//using Microsoft.Extensions.Logging;
+//using Microsoft.Extensions.Options;
+//using Microsoft.Extensions.Primitives;
 
-namespace www.SupportClasses
-{
-    public interface IRazorRenderService
-    {
-        Task<string> RenderToStringAsync(string viewName, object model);
-    }
+//namespace www.SupportClasses
+//{
+//    public interface IRazorRenderService
+//    {
+//        Task<string> RenderToStringAsync(string viewName, object model);
+//    }
 
-    public class RazorRenderService : IRazorRenderService
-    {
-        private readonly IRazorViewEngine _razorViewEngine;
-        private readonly ITempDataProvider _tempDataProvider;
-        private readonly IServiceProvider _serviceProvider;
+//    public class RazorRenderService : IRazorRenderService
+//    {
+//        private readonly IRazorViewEngine _razorViewEngine;
+//        private readonly ITempDataProvider _tempDataProvider;
+//        private readonly IServiceProvider _serviceProvider;
 
-        public RazorRenderService(IRazorViewEngine razorViewEngine,
-            ITempDataProvider tempDataProvider,
-            IServiceProvider serviceProvider)
-        {
-            _razorViewEngine = razorViewEngine;
-            _tempDataProvider = tempDataProvider;
-            _serviceProvider = serviceProvider;
-        }
+//        public RazorRenderService(IRazorViewEngine razorViewEngine,
+//            ITempDataProvider tempDataProvider,
+//            IServiceProvider serviceProvider)
+//        {
+//            _razorViewEngine = razorViewEngine;
+//            _tempDataProvider = tempDataProvider;
+//            _serviceProvider = serviceProvider;
+//        }
 
-        public async Task<string> RenderToStringAsync(string viewName, object model)
-        {
-            var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
-            var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
+//        public async Task<string> RenderToStringAsync(string viewName, object model)
+//        {
+//            var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
+//            var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
 
-            using (var sw = new StringWriter())
-            {
-                var viewResult = _razorViewEngine.FindView(actionContext, viewName, false);
+//            using (var sw = new StringWriter())
+//            {
+//                var viewResult = _razorViewEngine.FindView(actionContext, viewName, false);
 
-                if (viewResult.View == null)
-                {
-                    throw new ArgumentNullException($"{viewName} does not match any available view");
-                }
+//                if (viewResult.View == null)
+//                {
+//                    throw new ArgumentNullException($"{viewName} does not match any available view");
+//                }
 
-                var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
-                {
-                    Model = model
-                };
+//                var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
+//                {
+//                    Model = model
+//                };
 
-                var viewContext = new ViewContext(
-                    actionContext,
-                    viewResult.View,
-                    viewDictionary,
-                    new TempDataDictionary(actionContext.HttpContext, _tempDataProvider),
-                    sw,
-                    new HtmlHelperOptions()
-                );
+//                var viewContext = new ViewContext(
+//                    actionContext,
+//                    viewResult.View,
+//                    viewDictionary,
+//                    new TempDataDictionary(actionContext.HttpContext, _tempDataProvider),
+//                    sw,
+//                    new HtmlHelperOptions()
+//                );
 
-                await viewResult.View.RenderAsync(viewContext);
-                return sw.ToString();
-            }
-        }
-    }
-
-    public class NancyViewLocationExpander : IViewLocationExpander
-    {
-        public void PopulateValues(ViewLocationExpanderContext context)
-        {
-
-        }
-
-        public IEnumerable<string> ExpandViewLocations(ViewLocationExpanderContext context, IEnumerable<string> viewLocations)
-        {
-            yield return "/{0}.cshtml";
-        }
-    }
-}
+//                await viewResult.View.RenderAsync(viewContext);
+//                return sw.ToString();
+//            }
+//        }
+//    }    
+//}

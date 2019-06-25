@@ -18,19 +18,19 @@ namespace www.SupportClasses
     public class Bootstrapper : DefaultNancyBootstrapper
     {
         private readonly IConfiguration _config;
-        private readonly IRazorRenderService _razorRenderService;
+        private readonly IServiceProvider _services;
 
-        public Bootstrapper(IConfiguration configuration, IRazorRenderService rrs)
+        public Bootstrapper(IConfiguration configuration, IServiceProvider dotNetServices)
         {
             _config = configuration;
-            _razorRenderService = rrs;
+            _services = dotNetServices;
         }
 
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);
             container.Register(_config);
-            container.Register(_razorRenderService);
+            container.Register<IServiceProvider>(_services);
         }
 
         public override void Configure(INancyEnvironment environment)
@@ -54,7 +54,7 @@ namespace www.SupportClasses
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             base.ApplicationStartup(container, pipelines);
-            
+
             var keyString = _config.GetValue<string>("KeyString");
             var keyByteArray = Encoding.ASCII.GetBytes(keyString);
             var signingKey = new SymmetricSecurityKey(keyByteArray);
