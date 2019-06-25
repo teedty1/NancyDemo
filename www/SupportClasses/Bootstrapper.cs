@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Nancy;
 using Nancy.Authentication.JwtBearer;
@@ -16,17 +17,20 @@ namespace www.SupportClasses
 {
     public class Bootstrapper : DefaultNancyBootstrapper
     {
-        private readonly IConfiguration config;
+        private readonly IConfiguration _config;
+        private readonly IRazorRenderService _razorRenderService;
 
-        public Bootstrapper(IConfiguration configuration)
+        public Bootstrapper(IConfiguration configuration, IRazorRenderService rrs)
         {
-            config = configuration;
+            _config = configuration;
+            _razorRenderService = rrs;
         }
 
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);
-            container.Register(config);
+            container.Register(_config);
+            container.Register(_razorRenderService);
         }
 
         public override void Configure(INancyEnvironment environment)
@@ -50,8 +54,8 @@ namespace www.SupportClasses
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             base.ApplicationStartup(container, pipelines);
-
-            var keyString = config.GetValue<string>("KeyString");
+            
+            var keyString = _config.GetValue<string>("KeyString");
             var keyByteArray = Encoding.ASCII.GetBytes(keyString);
             var signingKey = new SymmetricSecurityKey(keyByteArray);
 

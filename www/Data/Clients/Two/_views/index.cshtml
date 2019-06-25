@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "/Data/_views/Layout.cshtml";
+}
+@section Index {
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"><h1>CLIENT TWO</h1></div>
+            <div class="col-md-8 text-center">
+                <h1>Hello, CLIENT 2</h1>
+                <h3>Client: @Model.ClientGUID :: @Model.Title</h3>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div id="app">
+                    <h3>{{ message }}</h3>
+                    <b-alert show>Default Alert</b-alert>
+                </div>
+                <div id="client">
+                    <h2>{{ clientMessage }}</h2>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+}

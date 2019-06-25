@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Razor.Language;
+using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.ObjectPool;
+using Microsoft.Extensions.PlatformAbstractions;
 using Nancy.Owin;
 using www.SupportClasses;
 
@@ -15,16 +18,45 @@ namespace www
 {
     public class Startup
     {
-        private readonly IConfiguration config;
+        private readonly IConfiguration _config;
         public Startup(IConfiguration configuration)
         {
-            config = configuration;
+            _config = configuration;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var applicationEnvironment = PlatformServices.Default.Application;
+            services.AddSingleton(applicationEnvironment);
+
+            var appDirectory = Directory.GetCurrentDirectory();
+
+            var environment = new HostingEnvironment
+            {
+                ApplicationName = Assembly.GetEntryAssembly().GetName().Name
+            };
+            services.AddSingleton<IHostingEnvironment>(environment);
+
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.FileProviders.Clear();
+                options.FileProviders.Add(new PhysicalFileProvider(appDirectory));
+
+                options.ViewLocationExpanders.Clear();
+                options.ViewLocationExpanders.Add(new NancyViewLocationExpander());
+            });
+
+            services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
+
+            var diagnosticSource = new DiagnosticListener("Microsoft.AspNetCore");
+            services.AddSingleton<DiagnosticSource>(diagnosticSource);
+
+            services.AddLogging();
+            services.AddMvc();
+            services.AddScoped<IRazorRenderService, RazorRenderService>();
+            var provider = services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,11 +67,14 @@ namespace www
                 app.UseDeveloperExceptionPage();
             }
 
+
             app
                 .UseOwin(owin => owin
                     .UseNancy(nancy =>
                     {
-                        nancy.Bootstrapper = new Bootstrapper(config);
+                        var scope = app.ApplicationServices.CreateScope();
+                        nancy.Bootstrapper = new Bootstrapper(_config, (IRazorRenderService)scope.ServiceProvider.GetService(typeof(IRazorRenderService)));
+
                         nancy.PerformPassThrough = context =>
                         {
                             var path = context.Request.Path.ToLower();
