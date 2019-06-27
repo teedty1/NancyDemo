@@ -49,15 +49,7 @@ namespace www
                 options.ViewLocationExpanders.Add(new NancyViewLocationExpander());
             });
 
-            //services.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
-
-            //var diagnosticSource = new DiagnosticListener("Microsoft.AspNetCore");
-            //services.AddSingleton<DiagnosticSource>(diagnosticSource);
-
-            //services.AddLogging();
             services.AddMvc();
-            //services.AddScoped<IRazorRenderService, RazorRenderService>();
-            //var provider = services.BuildServiceProvider();
             _services = services;
         }
 
@@ -74,9 +66,6 @@ namespace www
                 .UseOwin(owin => owin
                     .UseNancy(nancy =>
                     {
-                        //var scope = app.ApplicationServices.CreateScope();
-                        //nancy.Bootstrapper = new Bootstrapper(_config, (IRazorRenderService)scope.ServiceProvider.GetService(typeof(IRazorRenderService)));
-
                         nancy.Bootstrapper = new Bootstrapper(_config, app.ApplicationServices);
 
                         nancy.PerformPassThrough = context =>
