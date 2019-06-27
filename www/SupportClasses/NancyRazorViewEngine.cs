@@ -41,7 +41,12 @@ namespace www.SupportClasses
         {
             var viewName = viewLocationResult.Location + "/" + viewLocationResult.Name;
 
-            var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
+            var httpContext = new DefaultHttpContext
+            {
+                RequestServices = _serviceProvider,
+                User = renderContext?.Context?.CurrentUser
+            };
+
             var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
 
             using (var sw = new StringWriter())

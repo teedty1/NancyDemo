@@ -1,0 +1,117 @@
+﻿@{
+    Layout = "Layout.cshtml";
+}
+<!-- Header -->
+@section HeaderContent {
+    <h1 class="display-4 text-white mt-5 mb-2">Government Brands</h1>
+    <p class="lead mb-5 text-white-50">This is a demo project for examples of Nancy, vueJS, Bootstrap and other technologies for Government Brands companies.</p>
+}
+
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-8 mb-5">
+            <h2>What Is This For?</h2>
+            <hr>
+            <p>This project serves to demo some of the capabilities of Nancy, VueJS and other technologies.  It can be used as a starting point for your own development and for collaborating with other brands.</p>
+            <p>
+                Currently this site uses the following technologies:
+                <ul>
+                    <li>.Net Core v2.2</li>
+                    <li>Nancy v2.0.0</li>
+                    <li>Nancy JWT Authentication</li>
+                    <li>Bootstrap v4.3.1</li>
+                    <li>Dapper</li>
+                    <li>MySQL</li>
+                    <li>Razor View Engine (Custom built Nancy Integration)</li>
+                    <li>BundlerMinifier</li>
+                </ul>
+            </p>
+        </div>
+        <div class="col-md-4 mb-5">
+            <h2>Contact</h2>
+            <hr>
+            <address>
+                <strong>Andy Castillo</strong>
+                <br>1184 Springmaid Ave
+                <br />Suite 101
+                <br>Fort Mill, SC  29708
+                <br>
+            </address>
+            <address>
+                <abbr title="Phone">P:</abbr>
+                (866) 219-1476
+                <br>
+                <abbr title="Email">E:</abbr>
+                <a href="mailto:#">andy.castillo@sturgiswebservices.com</a>
+            </address>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Simple Nancy Binding</h4>
+                    <p class="card-text">This form shows a simple form post with Nancy Binding along with Razor Model Binding</p>
+                    <form action="/nancyFormPost" method="POST">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" name="firstName" placeholder="Joe">
+                        </div>
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" name="lastName" placeholder="Smith">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Client Specific JS/CSS Bundles</h4>
+                    <p class="card-text">
+                        Sturgis uses a technique similar to this to create client-specific resource bundles for each of our clients in Avalon.  Using this technique we can
+                        override or add specific functionality for any of our customers.
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="/data/820c512a-4280-4072-b125-581743296652/home" class="btn btn-warning">Client One</a>
+                    <a href="/data/b2a667fa-aed5-4ea1-b21b-9f7094b38044/home" class="btn btn-info">Client Two</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Authentication</h4>
+                    <p class="card-text">
+                        Fill in the form below to access parts of this website that require authentication.
+                        <br />Username is  <em>user</em>
+                        <br />Password is <em>password1</em>.
+                    </p>
+                    @Html.Partial("_views/LoginForm")
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-md-4 mb-5">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h4 class="card-title">SQS Demo</h4>
+                    <p class="card-text">Click the button below to send a message to the Demo SQS queue.  The AWS_SQS_DEMO application will show the response</p>
+                    <form action="/sqs" method="post">
+                        <button type="submit" class="btn btn-primary">Send SQS Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container -->
