@@ -102,16 +102,23 @@
     <!-- /.row -->
     <div class="row">
         <div class="col-md-4 mb-5">
-            <div class="card h-100">
+            <div class="card h-100" id="sqs">
                 <div class="card-body">
                     <h4 class="card-title">SQS Demo</h4>
-                    <p class="card-text">Click the button below to send a message to the Demo SQS queue.  The AWS_SQS_DEMO application will show the response</p>
-                    <form action="/sqs" method="post">
-                        <button type="submit" class="btn btn-primary">Send SQS Message</button>
-                    </form>
+                    <p class="card-text">Click the button below to send a message to the Demo SQS queue.  The AWS_SQS_DEMO application will show the response.</p>
+                    <ul>
+                        <li v-for="m in messages.slice(Math.max(messages.length - 5, 1))">
+                            <small>{{ m }}</small>
+                        </li>
+                    </ul>
+                    <button type="button" v-on:click="postToSQS" class="btn btn-primary">Send SQS Message</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- /.container -->
+
+@section FooterScripts {
+    <script src="/_js/indexVue.js"></script>
+}

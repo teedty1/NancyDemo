@@ -14,7 +14,14 @@ namespace www.Modules
 {
     public class ResourcesModule : NancyModule
     {
-        public ResourcesModule(IRootPathProvider root) : base("/{clientGUID:guid}")
+        public ResourcesModule()
+        {
+            Get("/_js/{path}", x => Response.AsFile("_js/" + (string)x.path, "text/javascript"));
+        }
+    }
+    public class ClientResourcesModule : NancyModule
+    {
+        public ClientResourcesModule(IRootPathProvider root) : base("/{clientGUID:guid}")
         {
             var clientGUID = Guid.Empty;
             this.Before.AddItemToStartOfPipeline(context =>
