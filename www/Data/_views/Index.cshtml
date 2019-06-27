@@ -6,10 +6,12 @@
     <link rel="stylesheet" href="/@Model.ClientGUID/bundle.css">
 }
 
-@section HeaderContent
-    {
+@section HeaderContent {
     <h1 class="display-4 text-white mt-5 mb-2">Client :: @Model.Title</h1>
-    <p class="lead mb-5 text-white-50">Homepage for @Model.Title.  CSS, Views and Javascript are loaded specifically for this customer.</p>
+    <p class="lead mb-5 text-white-50">
+        Homepage for @Model.Title.  CSS, Views and Javascript are loaded specifically for this customer.<br />
+        ClientGUID: @Model.ClientGUID
+    </p>
 }
 
 <div class="container">
@@ -17,26 +19,42 @@
         <div class="col-md-2"></div>
         <div class="col-md-8 text-center">
             <h1>Hello, world!</h1>
-            <h3>Client: @Model.ClientGUID :: @Model.Title</h3>
+
         </div>
         <div class="col-md-2"></div>
     </div>
     <div class="row">
         <div class="col-md-12 text-center">
             <div id="app">
-                <h3>{{ message }}</h3>
+                <welcome-message title="@Model.Title"></welcome-message>
                 <b-alert show>Default Alert</b-alert>
             </div>
             <div id="client">
                 <h2>{{ clientMessage }}</h2>
             </div>
-
-
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-5">
+            <div class="card h-100 root">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Root CSS</h4>
+                    <div class="square"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-5">
+            <div class="card h-100 client">
+                <div class="card-body text-center">
+                    <h4 class="card-title">Client CSS</h4>
+                    <div class="square"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 
-@section FooterScripts{   
+@section FooterScripts{
     <script type="text/javascript" src="/@Model.ClientGUID/bundle.js"></script>
 }

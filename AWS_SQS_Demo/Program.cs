@@ -12,6 +12,7 @@ namespace AWS_SQS_Demo
         {
             var app = new App();
             app.Run();
+            Console.ReadLine();
         }
     }
 

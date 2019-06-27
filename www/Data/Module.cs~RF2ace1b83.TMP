@@ -15,11 +15,10 @@ namespace www.Data
             {
                 Guid clientGUID = x.clientGUID;
                 var clientFile = Directory.EnumerateFiles(root.GetRootPath(), clientGUID.ToString(), SearchOption.AllDirectories).First();
-                var clientTitle = File.ReadAllText(clientFile);
-
+                var clientTitle = File.ReadAllLines(clientFile);
                 return View["Data/_views/Index", new ClientModel
                 {
-                    Title = clientTitle,
+                    Title = "Joe",
                     ClientGUID = clientGUID
                 }];
             });
