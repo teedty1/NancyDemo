@@ -22,18 +22,18 @@
                         <ul>
                             <li>.Net Core v2.2</li>
                             <li>Nancy v2.0.0</li>
-                            <li>Nancy JWT Authentication</li>
-                            <li>Bootstrap v4.3.1</li>
-                            <li>Dapper</li>
+                            <li><a target="_blank" href="https://getbootstrap.com">Bootstrap v4.3.1</a></li>
+                            <li><a target="_blank" href="https://github.com/StackExchange/Dapper">Dapper</a></li>
                             <li>MySQL</li>
-                            <li>Razor View Engine (Custom built Nancy Integration)</li>
+                            <li>Razor View Engine <small class="text-muted">(Custom Nancy integration)</small></li>
                         </ul>
                     </div>
                     <div class="col-sm-6">
                         <ul>
-                            <li>BundlerMinifier</li>
-                            <li>JWT</li>
-                            <li>AWS SQS</li>
+                            <li><a target="_blank" href="https://github.com/xoofx/NUglify">NUglify</a></li>
+                            <li><a target="_blank" href="https://jwt.io">JWT</a></li>
+                            <li><a target="_blank" href="https://aws.amazon.com/sqs">AWS SQS</a></li>
+                            <li><a target="_blank" href="https://grpc.io">gRPC</a></li>
                         </ul>
                     </div>
                 </div>
@@ -104,24 +104,54 @@
                         <br />Username is  <em>user</em>
                         <br />Password is <em>password1</em>.
                     </p>
-                    @Html.Partial("_views/LoginForm")
+                    @Html.Partial("_views/LoginForm")                    
                 </div>
             </div>
         </div>
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-md-4 mb-5">
+        <div class="col-md-6 mb-5">
             <div class="card h-100" id="sqs">
                 <div class="card-body">
-                    <h4 class="card-title">SQS Demo</h4>
+                    <h4 class="card-title">SQS Demo  </h4>
                     <p class="card-text">Click the button below to send a message to the Demo SQS queue.  The AWS_SQS_DEMO application will show the response.</p>
+                    <button type="button" v-on:click="postToSQS" class="btn btn-primary mb-1">Send SQS Message</button>
                     <ul>
                         <li v-for="m in messages.slice(Math.max(messages.length - 5, 1))">
                             <small>{{ m }}</small>
                         </li>
                     </ul>
-                    <button type="button" v-on:click="postToSQS" class="btn btn-primary">Send SQS Message</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-5">
+            <div class="card h-100" id="grpc">
+                <div class="card-body">
+                    <h4 class="card-title">gRPC Demo</h4>
+                    <p class="card-text">Click the button below to send a message to the Demo SQS queue.  The AWS_SQS_DEMO application will show the response.</p>
+                    <p class="card-text">gRPC is a great method for cross-application realtime communication.</p>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" class="form-control" v-model="name">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" v-on:click="postToGRPC" class="btn btn-primary form-control">Send gRPC Message</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul>
+                        <li v-for="m in messages.slice(Math.max(messages.length - 5, 1))">
+                            <small>{{ m.Message }} {{ m.Date | date: 'MM-dd-yy hh:mm:ss'}}</small>
+                        </li>
+                    </ul>
+
                 </div>
             </div>
         </div>

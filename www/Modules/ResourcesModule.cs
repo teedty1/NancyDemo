@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BundlerMinifier;
 using Nancy;
 using NUglify;
 using NUglify.Css;

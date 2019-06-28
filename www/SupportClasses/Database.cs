@@ -61,7 +61,7 @@ namespace www.SupportClasses
                         newLastName
                     }) > 0;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //Log this error somewhere
                 return false;

@@ -11,7 +11,7 @@ namespace www.Data
     {
         public Module(IRootPathProvider root) : base("/data")
         {
-            Get("/{clientGUID:guid}/home", async (x, ct) =>
+            Get("/{clientGUID:guid}/home", x =>
             {
                 Guid clientGUID = x.clientGUID;
                 var clientFile = Directory.EnumerateFiles(root.GetRootPath(), clientGUID.ToString(), SearchOption.AllDirectories).First();

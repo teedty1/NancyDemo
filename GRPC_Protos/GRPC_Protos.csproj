@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.8.0" />
+    <PackageReference Include="Grpc" Version="1.21.0" />
+    <PackageReference Include="Grpc.Core" Version="1.21.0" />
+    <PackageReference Include="Grpc.Tools" Version="1.21.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Proto Include="*.proto" />
+    <Generated Include=".\generated\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'@(Generated)' == ''">
+    <Generated Include=".\generated\dummy.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="HelloWorld.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Proto Remove="HelloWorld.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="HelloWorld.proto" />
+  </ItemGroup>
+
+  <!-- Generate the code from all of the proto files -->
+  <Target Name="GenProtos" BeforeTargets="BeforeBuild" Inputs="@(Proto)" Outputs="@(Generated)">
+    <Message Text="Generating protos @(Proto)" Importance="High" />
+    <!-- TODO: Run different command lines per OS. -->
+    <Exec Command="$(ProjectDir)/../../tools/gen_protos.sh" />
+    <!-- Ensure all of the generated files are compiled. -->
+    <ItemGroup Condition="'@(Compile)' == ''">
+      <Compile Include="generated\*.cs" />
+    </ItemGroup>
+  </Target>
+
+</Project>
