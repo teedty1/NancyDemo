@@ -25,7 +25,7 @@ namespace GRPC_Server
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the AWS SQS Demo!");
+            Console.WriteLine("Welcome to the gRPC Demo!");
             Server server = new Server
             {
                 Services = { Greeter.BindService(new GreeterImpl()) },
