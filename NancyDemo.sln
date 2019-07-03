@@ -1,20 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "www", "www\www.csproj", "{5E378F28-FCE5-46FB-8C33-58443580ECB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWS_SQS_Demo", "AWS_SQS_Demo\AWS_SQS_Demo.csproj", "{0EF2E5AA-BA0D-4A25-A83D-D7C67CC44AC9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AWS_SQS_Demo", "AWS_SQS_Demo\AWS_SQS_Demo.csproj", "{0EF2E5AA-BA0D-4A25-A83D-D7C67CC44AC9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9B297376-4293-4C76-8361-B325EC0E8226}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRPC_Protos", "GRPC_Protos\GRPC_Protos.csproj", "{7A7AB956-05E8-4F46-B296-A652DCD5935D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRPC_Protos", "GRPC_Protos\GRPC_Protos.csproj", "{7A7AB956-05E8-4F46-B296-A652DCD5935D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRPC_Server", "GRPC_Server\GRPC_Server.csproj", "{960F0C9D-128A-469B-B9D5-A3BA74B4E37E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRPC_Server", "GRPC_Server\GRPC_Server.csproj", "{960F0C9D-128A-469B-B9D5-A3BA74B4E37E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
