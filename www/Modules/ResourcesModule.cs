@@ -80,6 +80,7 @@ namespace www.Modules
                 typeDir = "_js";
 
             var files = new List<string>();
+            var sb = new StringBuilder();
 
             foreach (var p in splitPath)
             {
@@ -97,10 +98,15 @@ namespace www.Modules
                 if (type == BundleType.JS)
                 {
                     files.AddRange(dir.EnumerateFiles("*.js", SearchOption.AllDirectories).Select(x => x.FullName));
+
+                    foreach (var sfc in dir.EnumerateFiles("*.vue", SearchOption.AllDirectories))
+                    {
+                        var strJS = SupportClasses.VueFilesToJS.Compile(sfc.DirectoryName, sfc.Name);
+                        sb.AppendLine(strJS);
+                    }
                 }
             }
 
-            var sb = new StringBuilder();
             foreach (var f in files)
                 sb.AppendLine(File.ReadAllText(f));
 
